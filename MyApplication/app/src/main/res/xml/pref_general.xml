@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:key="@string/pref_descarga_letra_key"
+        android:defaultValue="@string/pref_descarga_letra_default_value"
+        android:title="@string/pref_descarga_letra_auto_label"
+        android:summaryOn="@string/pref_descarga_letra_summary_on"
+        android:summaryOff="@string/pref_descarga_letra_summary_off"/>
+
+</PreferenceScreen>

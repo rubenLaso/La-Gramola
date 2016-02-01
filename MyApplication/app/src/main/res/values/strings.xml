@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">MP3player</string>
+
+    <!--Nombre de menus-->
+    <string name="menu_settings">Ajustes</string>
+
+    <!--Preferencias-->
+    <string name="pref_descarga_letra_auto_label">Descargar letra automáticamente</string>
+    <string name="pref_descarga_letra_key">descargar_letra_auto</string>
+    <string name="pref_descarga_letra_default_value">false</string>
+    <string name="pref_descarga_letra_summary_on">Descargar letra de la canción automáticamente al comenzar la reproducción</string>
+    <string name="pref_descarga_letra_summary_off">No descargar letra de la canción automáticamente al comenzar la reproducción</string>
+
+
+
 </resources>
