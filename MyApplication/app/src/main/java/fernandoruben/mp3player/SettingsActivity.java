@@ -16,6 +16,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_descarga_letra_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
+        bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_controles_pequenos_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
+        bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_orden_aleatorio_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
+        bindPreferenceSummaryToValue_String(findPreference(getString(R.string.pref_color_key)));
     }
 
     /**

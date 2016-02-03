@@ -1,6 +1,7 @@
 package fernandoruben.mp3player;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.audiofx.BassBoost;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,9 @@ public class ListActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        //MediaPlayer mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.bach_bwv578);
+        //mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
     @Override /* TODO */
