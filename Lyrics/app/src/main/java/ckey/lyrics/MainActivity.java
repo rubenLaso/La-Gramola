@@ -8,9 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,22 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
         ObtenerLyrics obtencion  = new ObtenerLyrics(getApplicationContext(), this.findViewById(android.R.id.content));
         try {
-            obtencion.execute("Gozadera","Gente de zona");
+            obtencion.execute("Paradise","Scorpions");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String lyrics = null;
-        try {
-            lyrics = obtencion.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-
-
-
 
     }
 

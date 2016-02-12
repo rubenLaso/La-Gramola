@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+    public MediaPlayer media = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-
+                MediaPlayer media = ((MainActivity) adapterView.getContext()).media;
                 if (cursor != null) {
                     //Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                     Uri playableUri = Uri.withAppendedPath(
                             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                             cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
-                    MediaPlayer media = MediaPlayer.create(getBaseContext(), playableUri);
+                    if (media == null) {
+                        ((MainActivity) adapterView.getContext()).media = MediaPlayer.create(getBaseContext(), playableUri);
+                        media = ((MainActivity) adapterView.getContext()).media;
+                    }
+                    if (media.isPlaying()) {
+                        media.stop();
+                        ((MainActivity) adapterView.getContext()).media = MediaPlayer.create(getBaseContext(), playableUri);
+                        media = ((MainActivity) adapterView.getContext()).media;
+                    }
                     media.start();
                 }
             }

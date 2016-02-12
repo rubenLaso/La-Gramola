@@ -20,7 +20,7 @@ import java.net.URL;
 /**
  * Created by Fernando on 11/02/2016.
  */
-public class ObtenerLyrics extends AsyncTask<String, Void, String> {
+public class ObtenerLyrics extends AsyncTask<String, String, String> {
 
     private final String LOG_TAG = ObtenerLyrics.class.getSimpleName();
     private final Context mContext;
@@ -266,16 +266,20 @@ public class ObtenerLyrics extends AsyncTask<String, Void, String> {
                 }
             }
         }
-
+        if (lyrics == "" || lyrics == null) {
+            lyrics = "Lo sentimos :( \n" +
+                    "No hemos encontrado letra para tu canción. Intenta: \n" +
+                    "   - Revisar que el título sea el original.\n" +
+                    "   - Proporcionar datos como el autor de la misma.\n" +
+                    "   - Comprobar que realmente la canción tiene letra.\n";
+        }
         return lyrics;
     }
     @Override
-    protected void onPostExecute() {
+    protected void onPostExecute(String lyrics) {
         TextView t = (TextView) mView.findViewById(R.id.letra);
         t.setText(lyrics);
 
-        return null;
-
-    }
+        }
 
 }
