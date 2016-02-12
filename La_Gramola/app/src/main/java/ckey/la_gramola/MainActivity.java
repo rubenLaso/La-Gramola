@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ArrayList<AudioFile> songs = getSongList();
         ListView songListView = (ListView) findViewById(R.id.songListView);
 
         ContentResolver musicResolver = getContentResolver();
@@ -52,9 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (cursor != null) {
                     //Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                    cursor.getString(cursor.getColumnIndex(MediaStore.Audio.))
-                    MediaPlayer.create(getBaseContext(), musicUri.getPath()+"/"+cursor.getString(cursor.getColumnIndex
-                            (MediaStore.Audio.Media.DISPLAY_NAME)));
+                    Uri playableUri = Uri.withAppendedPath(
+                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                            cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+                    MediaPlayer media = MediaPlayer.create(getBaseContext(), playableUri);
+                    media.start();
                 }
             }
         });
