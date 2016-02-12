@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,12 +96,17 @@ public class ObtenerLyrics extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        //Comprobamos que se pasan argumentos
-        //if (params.length == 0) {
-        //    return null;
-        //}
         String titulo = "We are de champions";
         String autor = "Queen";
+
+        //Comprobamos que se pasan argumentos
+        if (params.length == 0) {
+            return null;
+        }
+
+        titulo = params[0];
+        autor = params[1];
+
 
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
@@ -262,6 +268,14 @@ public class ObtenerLyrics extends AsyncTask<String, Void, String> {
         }
 
         return lyrics;
+    }
+    @Override
+    protected void onPostExecute() {
+        TextView t = (TextView) mView.findViewById(R.id.letra);
+        t.setText(lyrics);
+
+        return null;
+
     }
 
 }

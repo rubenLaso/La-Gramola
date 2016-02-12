@@ -33,19 +33,21 @@ public class ListActivity extends AppCompatActivity {
         //mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
-    @Override /* TODO */
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-    @Override /*TODO*/
+    @Override /* TODO falta pasar a pantalla de reproduccion */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public void onStart() {

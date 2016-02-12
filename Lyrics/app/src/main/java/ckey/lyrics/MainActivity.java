@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         ObtenerLyrics obtencion  = new ObtenerLyrics(getApplicationContext(), this.findViewById(android.R.id.content));
         try {
-            obtencion.execute();
+            obtencion.execute("Gozadera","Gente de zona");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        TextView t = (TextView) this.findViewById(R.id.letra);
-        t.setText(lyrics);
+
 
 
     }
