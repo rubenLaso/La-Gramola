@@ -1,5 +1,6 @@
 package ckey.la_gramola;
 
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -22,6 +25,7 @@ public class PlayerActivity extends AppCompatActivity {
     private ImageButton next;
     private ImageButton prev;
     private Bundle bundle;
+    private TextView lyrics_view;
     static MediaPlayer mediaPlayer;
     private SeekBar seekBar;
     private boolean mutex;
@@ -48,6 +52,22 @@ public class PlayerActivity extends AppCompatActivity {
         position = global_uris.indexOf(song_uri.toString());
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), song_uri);
+
+        String title = getTitle(song_uri);
+        String artist = getArtist(song_uri);
+
+        ObtenerLyrics obtencion  = new ObtenerLyrics(getApplicationContext(), findViewById(android.R.id.content));
+        try {
+            if (title == null) {
+                title = "";
+            }
+            if (artist == null) {
+                artist = "";
+            }
+            obtencion.execute(title, artist);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setProgress(0);
@@ -87,7 +107,7 @@ public class PlayerActivity extends AppCompatActivity {
                         sleep(500);
                         seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     }
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -162,5 +182,17 @@ public class PlayerActivity extends AppCompatActivity {
                 mediaPlayer.start();
             }
         });
+    }
+
+    private String getTitle (Uri audioFileUri) {
+        MediaMetadataRetriever metaRetriever= new MediaMetadataRetriever();
+        metaRetriever.setDataSource(getApplicationContext(), audioFileUri);
+        return metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+    }
+
+    private String getArtist (Uri audioFileUri) {
+        MediaMetadataRetriever metaRetriever= new MediaMetadataRetriever();
+        metaRetriever.setDataSource(getApplicationContext(), audioFileUri);
+        return metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
     }
 }
