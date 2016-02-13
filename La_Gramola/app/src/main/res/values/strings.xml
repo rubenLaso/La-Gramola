@@ -28,4 +28,7 @@
     <string name="pref_color_default">auto</string>
     <string name="pref_color_summary">Esquema de colores de la aplicación</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

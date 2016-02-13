@@ -5,6 +5,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 /**
  * Created by ruben on 1/02/16.
@@ -14,6 +16,19 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.pref_layout);
+
+        Toolbar actionbar = (Toolbar) findViewById(R.id.actionbar);
+        actionbar.setTitle(R.string.menu_settings);
+        actionbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        actionbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
+        actionbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsActivity.this.finish();
+            }
+        });
+
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_descarga_letra_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_controles_pequenos_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));

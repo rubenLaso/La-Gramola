@@ -96,31 +96,30 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        String titulo = "We are de champions";
-        String autor = "Queen";
+        //----------------------------------------------------
+        //Recuperamos el id de la cancion
+        //----------------------------------------------------
+
 
         //Comprobamos que se pasan argumentos
         if (params.length == 0) {
             return null;
         }
 
-        titulo = params[0];
-        autor = params[1];
+        String titulo = params[0];
+        String autor = params[1];
 
 
-        // These two need to be declared outside the try/catch
-        // so that they can be closed in the finally block.
+
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-        // Will contain the raw JSON response as a string.
         String JsonStr1 = null;
         String format = "json";
         String id = null;
 
 
         try {
-            // Construct the URL for query
             final String FORECAST_BASE_URL1 =
                     "http://api.musixmatch.com/ws/1.1/matcher.track.get?";
             final String APPID_PARAM = "apikey";
@@ -138,13 +137,11 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
 
             URL url = new URL(builtUri.toString());
 
-            // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
 
-            // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
@@ -155,14 +152,10 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
                 buffer.append(line + "\n");
             }
 
             if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
                 return null;
             }
 
@@ -190,18 +183,17 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
 
         //----------------------------------------------------
         //Recuperamos la letra
+        //----------------------------------------------------
 
-        // These two need to be declared outside the try/catch
-        // so that they can be closed in the finally block.
         urlConnection = null;
         reader = null;
 
-        // Will contain the raw JSON response as a string.
+
         String JsonStr2 = null;
 
 
         try {
-            // Construct the URL for query
+
             final String FORECAST_BASE_URL1 =
                     "http://api.musixmatch.com/ws/1.1/track.lyrics.get?";
             final String APPID_PARAM = "apikey";
@@ -217,30 +209,27 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
 
             URL url = new URL(builtUri.toString());
 
-            // Create the request to OpenWeatherMap, and open the connection
+
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // Read the input stream into a String
+
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
-                // Nothing to do.
                 return null;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
             while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
+
                 buffer.append(line + "\n");
             }
 
             if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
+
                 return null;
             }
             JsonStr2 = buffer.toString();
@@ -249,8 +238,7 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
 
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attempting
-            // to parse it.
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
