@@ -88,6 +88,9 @@ public class PlayerActivity extends AppCompatActivity {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     nextSong();
+                    if (!mediaPlayer.isPlaying()) {
+                        mediaPlayer.start();
+                    }
                 }
             });
         }
@@ -462,10 +465,12 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void play () {
         if (mediaPlayer.isPlaying()) {
+            was_playing = false;
             mediaPlayer.pause();
             play.setImageResource(R.drawable.play_button);
             return;
         }
+        was_playing = true;
         mediaPlayer.start();
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setProgress(0);
@@ -502,6 +507,15 @@ public class PlayerActivity extends AppCompatActivity {
 
         mediaPlayer.release();
         mediaPlayer = MediaPlayer.create(getApplicationContext(), song_uri);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                nextSong();
+                if (!mediaPlayer.isPlaying()) {
+                    mediaPlayer.start();
+                }
+            }
+        });
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setProgress(0);
 
@@ -545,7 +559,15 @@ public class PlayerActivity extends AppCompatActivity {
 
         mediaPlayer.release();
         mediaPlayer = MediaPlayer.create(getApplicationContext(), song_uri);
-
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                nextSong();
+                if (!mediaPlayer.isPlaying()) {
+                    mediaPlayer.start();
+                }
+            }
+        });
         seekBar.setMax(mediaPlayer.getDuration());
         seekBar.setProgress(0);
 
