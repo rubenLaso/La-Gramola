@@ -1,5 +1,7 @@
 package ckey.la_gramola;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -17,6 +19,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_layout);
+        /*findViewById(R.id.actionbar).setBackgroundResource(GetPreferences.getBackgroundColor(getApplicationContext()));
+        GetPreferences.setColorScheme(this);*/
 
         Toolbar actionbar = (Toolbar) findViewById(R.id.actionbar);
         actionbar.setTitle(R.string.menu_settings);
@@ -29,9 +33,16 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             }
         });
 
+        /*SharedPreferences theme = this.getSharedPreferences(getString(R.string.pref_color_key), Context.MODE_PRIVATE);
+        theme.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                getApplication().setTheme(GetPreferences.getColorScheme(getApplicationContext()));
+            }
+        });*/
+
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_descarga_letra_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
-        bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_controles_pequenos_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_orden_aleatorio_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
         bindPreferenceSummaryToValue_String(findPreference(getString(R.string.pref_color_key)));
     }
@@ -81,6 +92,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
         }
+
         return true;
     }
 }

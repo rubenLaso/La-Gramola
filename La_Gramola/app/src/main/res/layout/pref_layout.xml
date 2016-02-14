@@ -10,10 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/green_scheme_colorPrimary"
         android:titleTextColor="@android:color/white"
         android:title="@string/menu_settings"
-        app:theme="@style/Base.Widget.AppCompat.Toolbar" />
+        app:theme="@style/AppTheme" />
 
 
     <ListView

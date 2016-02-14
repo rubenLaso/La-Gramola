@@ -2,14 +2,14 @@
 <resources>
 
     <string-array name="listColorEntries">
-    <item>Auto</item>
-    <item>Rojo</item>
     <item>Azul</item>
+    <item>Verde</item>
+    <item>Rojo</item>
     </string-array>
 
     <string-array name="listColorValues">
-        <item>auto</item>
-        <item>rojo</item>
         <item>azul</item>
+        <item>verde</item>
+        <item>rojo</item>
     </string-array>
 </resources>

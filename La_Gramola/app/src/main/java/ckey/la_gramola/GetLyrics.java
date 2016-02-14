@@ -16,19 +16,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.regex.Pattern;
 
 /**
  * Created by Fernando on 11/02/2016.
  */
-public class ObtenerLyrics extends AsyncTask<String, String, String> {
+public class GetLyrics extends AsyncTask<String, String, String> {
 
-    private final String LOG_TAG = ObtenerLyrics.class.getSimpleName();
+    private final String LOG_TAG = GetLyrics.class.getSimpleName();
     private final Context mContext;
     private final View mView;
     private String lyrics;
 
-    public ObtenerLyrics(Context context, View view) {
+    public GetLyrics(Context context, View view) {
         mContext = context;
         mView = view;
     }
@@ -255,19 +254,21 @@ public class ObtenerLyrics extends AsyncTask<String, String, String> {
                 }
             }
         }
-        if (lyrics == "" || lyrics == null) {
-            lyrics = "Lo sentimos :( \n" +
+        if (lyrics == null || lyrics.equals("")) {
+            lyrics = "\n\n\n\n\nLo sentimos :( \n" +
                     "No hemos encontrado letra para tu canción. Intenta: \n" +
+                    "   - Comprobar que tienes conexión a Internet.\n" +
                     "   - Revisar que el título sea el original.\n" +
                     "   - Proporcionar datos como el autor de la misma.\n" +
-                    "   - Comprobar que realmente la canción tiene letra.\n";
+                    "   - Comprobar que realmente la canción tiene letra.\n\n\n\n\n";
         }
         return lyrics;
     }
+
     @Override
     protected void onPostExecute(String lyrics) {
         TextView t = (TextView) mView.findViewById(R.id.lyrics);
-        t.setText(lyrics.split("\\*\\*\\*\\*\\*\\*\\*")[0]);
+        PlayerActivity.old_lyrics = lyrics.split("\\*\\*\\*\\*\\*\\*\\*")[0];
+        t.setText(PlayerActivity.old_lyrics);
     }
-
 }

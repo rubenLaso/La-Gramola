@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //GetPreferences.setColorScheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView songListView = (ListView) findViewById(R.id.songListView);
@@ -81,43 +83,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /* Funcion de internete */
-    public ArrayList<AudioFile> getSongList() {
-        //retrieve song info
-        ArrayList<AudioFile> songList = new ArrayList<>();
-        ContentResolver musicResolver = getContentResolver();
-        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
-
-        if (musicCursor != null && musicCursor.moveToFirst()) {
-            //get columns
-            int titleColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.TITLE);
-            int idColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media._ID);
-            int artistColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ARTIST);
-            int nameColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.DISPLAY_NAME);
-            //add songs to list
-            do {
-                Uri new_uri = Uri.withAppendedPath(musicUri, musicCursor.getString(nameColumn));
-                long thisId = musicCursor.getLong(idColumn);
-                String thisTitle = musicCursor.getString(titleColumn);
-                String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new AudioFile(thisId, new_uri, thisTitle, thisArtist));
-            } while (musicCursor.moveToNext());
-        }
-        return songList;
-    }
-
-    public void adjustListItem(ListView listView, AudioFile audioFile) {
-        View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.song_list_layout, listView, false);
-        Song_view_holder song_view_holder = new Song_view_holder(view);
-        song_view_holder.title_view.setText(audioFile.getTitle());
-        song_view_holder.artist_view.setText(audioFile.getArtist());
-        view.setTag(song_view_holder);
     }
 }
