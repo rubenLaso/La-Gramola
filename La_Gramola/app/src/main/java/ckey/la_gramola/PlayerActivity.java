@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
@@ -13,7 +14,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +45,7 @@ public class PlayerActivity extends AppCompatActivity {
     private GetLyrics lyrics_getter;
     static CharSequence old_lyrics = "";
     private boolean valid_lyrics = false;
+    static boolean was_playing = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,13 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player_layout);
         old_lyrics = "";
+        mediaPlayer = null;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -71,13 +82,15 @@ public class PlayerActivity extends AppCompatActivity {
 
         position = global_uris.indexOf(song_uri.toString());
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), song_uri);
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                nextSong();
-            }
-        });
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), song_uri);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    nextSong();
+                }
+            });
+        }
 
         if (GetPreferences.getLyricsAuto(getApplicationContext())) {
             if (old_lyrics != null && !old_lyrics.equals(""))
@@ -141,7 +154,9 @@ public class PlayerActivity extends AppCompatActivity {
         changeImage(song_uri);
 
         MainActivity.mediaPlayer=mediaPlayer;
-        mediaPlayer.start();
+        if (mediaPlayer.isPlaying() || was_playing) {
+            mediaPlayer.start();
+        }
 
         play.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -198,9 +213,11 @@ public class PlayerActivity extends AppCompatActivity {
 
         if (GetPreferences.getLyricsAuto(getApplicationContext())) {
             if (old_lyrics != null && !old_lyrics.equals(""))
-               lyrics_view.setText(old_lyrics);
+                lyrics_view.setText(old_lyrics);
             else
                 obtenerLyrics(song_uri);
+        } else {
+            lyrics_view.setBackgroundResource(0);
         }
 
         setTitle(getFileName(song_uri));
@@ -378,11 +395,52 @@ public class PlayerActivity extends AppCompatActivity {
 
         if (image != null && image.length > 0) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+            int dim = (int) (1.75 * getScreenSizePixels());
+            bitmap = getResizedBitmap(bitmap, dim, dim);
             BitmapDrawable bm = new BitmapDrawable(bitmap);
+            bm.setGravity(Gravity.CENTER);
             findViewById(R.id.scroll_lyrics).setBackgroundDrawable(bm);
         } else {
-            findViewById(R.id.scroll_lyrics).setBackgroundResource(R.drawable.caratula);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.caratula);
+            int dim = (int) (1.75 * getScreenSizePixels());
+            bitmap = getResizedBitmap(bitmap, dim, dim);
+            BitmapDrawable bm = new BitmapDrawable(bitmap);
+            bm.setGravity(Gravity.CENTER);
+            findViewById(R.id.scroll_lyrics).setBackgroundDrawable(bm);
         }
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        if (bm == null)
+            return null;
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
+
+    public double getScreenSizePixels()
+    {
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        // Note, screenHeightDp isn't reliable
+        // (it seems to be too small by the height of the status bar),
+        // but we assume screenWidthDp is reliable.
+        // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+        // (they get confused when in screen compatibility mode, it seems),
+        // but we assume their ratio is correct.
+        return  (double)config.screenWidthDp * dm.density;
     }
 
     private void obtenerLyrics(Uri song_uri) {
@@ -415,6 +473,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void nextSong () {
+        was_playing = mediaPlayer.isPlaying();
         if (GetPreferences.getShuffle(getApplicationContext())) {
             position = (int) (Math.random() * global_uris.size());
         } else {
@@ -450,10 +509,12 @@ public class PlayerActivity extends AppCompatActivity {
 
         MainActivity.mediaPlayer = mediaPlayer;
 
-        mediaPlayer.start();
+        if (was_playing)
+            mediaPlayer.start();
     }
 
     private void prevSong () {
+        was_playing = mediaPlayer.isPlaying();
         valid_lyrics = false;
         lyrics_view.setText("");
         if (GetPreferences.getShuffle(getApplicationContext())) {
@@ -492,6 +553,7 @@ public class PlayerActivity extends AppCompatActivity {
 
         MainActivity.mediaPlayer = mediaPlayer;
 
-        mediaPlayer.start();
+        if (was_playing)
+            mediaPlayer.start();
     }
 }

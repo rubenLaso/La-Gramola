@@ -1,7 +1,5 @@
 package ckey.la_gramola;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -33,18 +31,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             }
         });
 
-        /*SharedPreferences theme = this.getSharedPreferences(getString(R.string.pref_color_key), Context.MODE_PRIVATE);
-        theme.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                getApplication().setTheme(GetPreferences.getColorScheme(getApplicationContext()));
-            }
-        });*/
-
         addPreferencesFromResource(R.xml.pref_general);
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_descarga_letra_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
         bindPreferenceSummaryToValue_Boolean(findPreference(getString(R.string.pref_orden_aleatorio_key)), new Boolean(getString(R.string.pref_descarga_letra_default_value)));
-        bindPreferenceSummaryToValue_String(findPreference(getString(R.string.pref_color_key)));
+        //bindPreferenceSummaryToValue_String(findPreference(getString(R.string.pref_color_key)));
     }
 
     /**

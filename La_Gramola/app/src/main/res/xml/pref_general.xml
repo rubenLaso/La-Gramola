@@ -19,13 +19,14 @@
         android:summaryOn="@string/pref_orden_aleatorio_summary_on"
         android:summaryOff="@string/pref_orden_aleatorio_summary_off"/>
 
-    <!--ListPreference
+    <ListPreference
         android:key="@string/pref_color_key"
         android:defaultValue="@string/pref_color_default"
         android:title="@string/pref_color_label"
         android:summary="@string/pref_color_summary"
         android:entries="@array/listColorEntries"
-        android:entryValues="@array/listColorValues"/-->
+        android:entryValues="@array/listColorValues"
+        android:enabled="false"/>
 
 
 </PreferenceScreen>
