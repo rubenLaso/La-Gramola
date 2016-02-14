@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">La Gramola</string>
+
+    <!--Nombre de menus-->
+    <string name="menu_settings">Ajustes</string>
+
+    <!--Preferencias-->
+    <string name="pref_descarga_letra_auto_label">Descargar letra automáticamente</string>
+    <string name="pref_descarga_letra_key">descargar_letra_auto</string>
+    <string name="pref_descarga_letra_default_value">false</string>
+    <string name="pref_descarga_letra_summary_on">Descargar letra de la canción automáticamente al comenzar la reproducción.</string>
+    <string name="pref_descarga_letra_summary_off">No descargar letra de la canción automáticamente al comenzar la reproducción.</string>
+
+    <string name="pref_orden_aleatorio_label">Orden de reproducción aleatorio</string>
+    <string name="pref_orden_aleatorio_key">orden_aleatorio</string>
+    <string name="pref_orden_aleatorio_default">false</string>
+    <string name="pref_orden_aleatorio_summary_on">Reproducción de las canciones en orden aleatorio.</string>
+    <string name="pref_orden_aleatorio_summary_off">Reproducción de las canciones en orden secuencial.</string>
+
+    <string name="pref_color_label">Tema de la aplicación</string>
+    <string name="pref_color_key">color</string>
+    <string name="pref_color_default">verde</string>
+    <string name="pref_color_summary">Esquema de colores de la aplicación</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

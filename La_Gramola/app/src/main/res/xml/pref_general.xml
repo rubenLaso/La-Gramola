@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SwitchPreference
+        android:key="@string/pref_descarga_letra_key"
+        android:defaultValue="@string/pref_descarga_letra_default_value"
+        android:title="@string/pref_descarga_letra_auto_label"
+        android:summaryOn="@string/pref_descarga_letra_summary_on"
+        android:summaryOff="@string/pref_descarga_letra_summary_off"/>
+
+    <SwitchPreference
+        android:key="@string/pref_orden_aleatorio_key"
+        android:defaultValue="@string/pref_orden_aleatorio_default"
+        android:title="@string/pref_orden_aleatorio_label"
+        android:summaryOn="@string/pref_orden_aleatorio_summary_on"
+        android:summaryOff="@string/pref_orden_aleatorio_summary_off"/>
+
+    <ListPreference
+        android:key="@string/pref_color_key"
+        android:defaultValue="@string/pref_color_default"
+        android:title="@string/pref_color_label"
+        android:summary="@string/pref_color_summary"
+        android:entries="@array/listColorEntries"
+        android:entryValues="@array/listColorValues"
+        android:enabled="false"/>
+
+
+</PreferenceScreen>
